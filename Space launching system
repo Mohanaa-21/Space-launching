@@ -1,0 +1,82 @@
+// Import necessary packages
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+// Define the Satellite class
+public class Satellite {
+    // Define the attributes of the satellite
+    private String orientation;
+    private boolean solarPanelsActive;
+    private int dataCollected;
+
+    // Initialize the Logger
+    private static final Logger LOGGER = Logger.getLogger(Satellite.class.getName());
+
+    // Constructor to initialize the satellite to its initial state
+    public Satellite() {
+        this.orientation = "North";
+        this.solarPanelsActive = false; // Inactive
+        this.dataCollected = 0;
+    }
+
+    // Method to rotate the satellite
+    public void rotate(String direction) {
+        switch (direction) {
+            case "North":
+            case "South":
+            case "East":
+            case "West":
+                this.orientation = direction;
+                LOGGER.info("Orientation set to: " + direction);
+                break;
+            default:
+                LOGGER.severe("Invalid direction: " + direction);
+                throw new IllegalArgumentException("Invalid direction: " + direction);
+        }
+    }
+
+    // Method to activate solar panels
+    public void activatePanels() {
+        this.solarPanelsActive = true;
+        LOGGER.info("Solar panels activated.");
+    }
+
+    // Method to deactivate solar panels
+    public void deactivatePanels() {
+        this.solarPanelsActive = false;
+        LOGGER.info("Solar panels deactivated.");
+    }
+
+    // Method to collect data
+    public void collectData() {
+        if (solarPanelsActive) {
+            this.dataCollected += 10;
+            LOGGER.info("Data collected. Total data collected: " + this.dataCollected);
+        } else {
+            LOGGER.warning("Cannot collect data. Solar panels are inactive.");
+        }
+    }
+
+    // Method to display the current state of the satellite
+    public void displayState() {
+        String panelStatus = solarPanelsActive ? "Active" : "Inactive";
+        LOGGER.info("Current State: Orientation = " + orientation + ", Solar Panels = " + panelStatus + ", Data Collected = " + dataCollected);
+    }
+
+    // Main method to test the Satellite class
+    public static void main(String[] args) {
+        // Create an instance of Satellite
+        Satellite satellite = new Satellite();
+
+        // Display initial state
+        satellite.displayState();
+
+        // Execute commands
+        satellite.rotate("South");
+        satellite.activatePanels();
+        satellite.collectData();
+        
+        // Display final state
+        satellite.displayState();
+    }
+}
